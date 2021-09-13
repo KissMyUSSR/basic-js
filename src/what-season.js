@@ -15,20 +15,21 @@
 // TODO Fake Date type verification
 
 export default function getSeason(date) {
-  if (!date) return 'Unable to determine the time of year!';
+  if ( !date ) return 'Unable to determine the time of year!';
 
-  // TODO Check if varification works!
-  if ( date.constructor !== Date) return 'Fake Date';
-  // TODO Check if varification works!
+  if (Object.keys(date).length || !(date instanceof Date)) throw new Error('Invalid date!');
 
-  if (date.getMonth() >= 1 && date.getMonth() < 3 || date.getMonth === 12) return 'winter';
-  if (date.getMonth() >= 3 && date.getMonth() < 6) return 'spring';
-  if (date.getMonth() >= 6 && date.getMonth() < 9) return 'summer';
-  if (date.getMonth() >= 9 && date.getMonth() < 12) return 'autumn';
+  if (date.getMonth() >= 0 && date.getMonth() < 2 || date.getMonth() === 11) return 'winter';
+  if (date.getMonth() >= 2 && date.getMonth() < 5) return 'spring';
+  if (date.getMonth() >= 5 && date.getMonth() < 8) return 'summer';
+  if (date.getMonth() >= 8 && date.getMonth() < 11) return 'fall';
 }
 
-// let date = new Date();
-// console.log(date.constructor.toString());
-
-// const springDate = new Date(2020, 2, 31);
-// console.log(getSeason(springDate));
+// let date1 = new Date(2025, 1, 22, 23, 45, 11, 500); // winter
+// console.log(getSeason(date1));
+// let date2 = new Date(2134, 2, 17, 11, 27, 4, 321);  // spring
+// console.log(getSeason(date2));
+// let date3 = new Date(2012, 5, 13, 23, 45, 11, 500);  // summer
+// console.log(getSeason(date3));
+// let date4 = new Date(1994, 8, 26, 3, 0, 11, 500);  // autumn|fall
+// console.log(getSeason(date4));

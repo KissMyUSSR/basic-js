@@ -12,24 +12,30 @@
  * 
  */
 
-export default function transform(arr) {
+export default function transform(arr2) {
+  if ( !Array.isArray(arr2) ) throw new Error("\'arr\' parameter must be an instance of the Array!");
+  let arr = arr2.slice();
+
   for (let i = 0; i < arr.length; i++) {
     switch (arr[i]) {
       case '--discard-next':
-        arr.splice(i, 2)
-        break;
-      case '--discard-prev':
-        arr.splice(i - 1, 2)
+        if (i != arr.length - 1) arr[i + 1] = 'discarded';
         break;
       case '--double-next':
-        arr[i] = arr[i + 1];
+        if (i != arr.length - 1) arr[i] = arr[i + 1];
+        break;
+      case '--discard-prev':
+        if (i != 0) arr[i - 1] = 'discarded';
         break;
       case '--double-prev':
-        arr[i] = arr[i - 1];
+        if (i != 0 && arr[i - 1] != 'discarded') arr[i] = arr[i - 1];
         break;
     }
   }
-  return arr;
-}
 
-// console.log(transform([1, 2, 3, '--discard-prev', 4, 5]));
+  return arr.filter(item => item !== 'discarded' && 
+                            item !== '--double-next' &&
+                            item !== '--discard-next' && 
+                            item !== '--discard-prev' && 
+                            item !== '--double-prev');
+}
